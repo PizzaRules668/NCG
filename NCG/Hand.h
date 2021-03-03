@@ -38,7 +38,6 @@ public:
 	std::vector<Card*> getCards();
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
 private:
 	std::vector<Card*> cards;
 
