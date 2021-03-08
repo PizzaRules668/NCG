@@ -1,5 +1,6 @@
 #include <SFML/Graphics/Drawable.hpp>
 
+#include "Energy.hpp"
 #include "Deck.h"
 #include "Hand.h"
 
@@ -14,12 +15,14 @@ public:
 
 	void update(sf::Event event, Hand *hand, std::vector<Lane*> lanes, float targetSize);
 
-	// Getters and Setters For Hand Class
 	Deck* getDeck1();
 	Deck* getDeck2();
 
 	void setDeck1(Deck *deck);
 	void setDeck2(Deck* deck);
+
+	void setEnergy(Energy* energy);
+	Energy* getEnergy();
 
 	int getHP();
 	void setHP(int hp);
@@ -27,10 +30,11 @@ public:
 	void takeDamage(int amount);
 
 private:
-	// Draws the Player to the Screen
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	int hp;
+
+	Energy* energy;
 
 	Hand *hand;
 

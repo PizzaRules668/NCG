@@ -17,7 +17,7 @@ public:
 	bool addCard(Card* card);
 	void removeCard();
 	void removeCard(int index);
-	void update();
+	void update(sf::Event event);
 
 	void setTexture(std::string filepath);
 	void setTexture(sf::Texture texture);
@@ -47,4 +47,7 @@ private:
 
 	bool floaty = false;
 	std::vector<Card*> cards;
+
+	sf::Text infoDisplay;
+	sf::Font comicSans;
 };

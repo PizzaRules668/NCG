@@ -2,7 +2,7 @@
 
 Hand::Hand()
 {
-	this->comicSans.loadFromFile("COMIC.TTF");
+	this->comicSans.loadFromFile("assets/ComicSans.TTF");
 	this->infoDisplay.setFont(this->comicSans);
 	this->infoDisplay.setFillColor(sf::Color::White);
 	this->infoDisplay.setScale(0.5f, 0.5f);
@@ -18,9 +18,7 @@ void Hand::setY(int y)
 	this->yPos = y;
 
 	for (int i = 0; i < this->getCards().size(); i++)
-	{
 		getCard(i)->setY(this->yPos);
-	}
 }
 
 void Hand::setMaxY(int y)

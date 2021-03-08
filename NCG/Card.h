@@ -24,6 +24,7 @@ public:
 	int getHP();
 	int getAttack();
 
+	void attackCard(Card* creature);
 	void takeDamage(int damageAmount);
 	void heal(int amount);
 

@@ -2,15 +2,30 @@
 
 Lane::Lane()
 {
+	this->comicSans.loadFromFile("assets/ComicSans.TTF");
+	this->infoDisplay.setFont(this->comicSans);
+	this->infoDisplay.setFillColor(sf::Color::White);
+	this->infoDisplay.setScale(0.5f, 0.5f);
+
 	this->floaty = false;
 }
 Lane::Lane(std::string filePath)
 {
+	this->comicSans.loadFromFile("assets/ComicSans.TTF");
+	this->infoDisplay.setFont(this->comicSans);
+	this->infoDisplay.setFillColor(sf::Color::White);
+	this->infoDisplay.setScale(0.5f, 0.5f);
+
 	this->setTexture(filePath);
 	this->floaty = floaty;
 }
 Lane::Lane(bool floaty, std::string filePath)
 {
+	this->comicSans.loadFromFile("assets/ComicSans.TTF");
+	this->infoDisplay.setFont(this->comicSans);
+	this->infoDisplay.setFillColor(sf::Color::White);
+	this->infoDisplay.setScale(0.5f, 0.5f);
+
 	this->setTexture(filePath);
 	this->floaty = floaty;
 }
@@ -81,7 +96,7 @@ void Lane::removeCard(int index)
 	this->cards.erase(cards.begin(), cards.begin()+index);
 }
 
-void Lane::update()
+void Lane::update(sf::Event event)
 {
 	if (this->cards.size() == 1)
 	{
@@ -95,6 +110,18 @@ void Lane::update()
 
 			if (this->cards.at(i)->getPosition() == this->position)
 				this->cards.at(i)->setPosition(this->position);
+
+			if (this->cards.at(i)->getSprite().getGlobalBounds().contains(event.mouseMove.x, event.mouseMove.y))
+			{
+				this->infoDisplay.setString(this->cards.at(i)->getInfo());
+				this->infoDisplay.setOrigin(this->infoDisplay.getLocalBounds().width, this->infoDisplay.getLocalBounds().height);
+				this->infoDisplay.setPosition(event.mouseMove.x, event.mouseMove.y);
+			}
+
+			else if (!this->cards.at(i)->getSprite().getGlobalBounds().contains(event.mouseMove.x, event.mouseMove.y))
+			{
+				this->infoDisplay.setString("");
+			}
 		}
 	}
 }
@@ -176,7 +203,7 @@ void Lane::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(this->sprite, states);
 
 	for (int i = 0; i < this->cards.size(); i++)
-	{
 		this->cards.at(i)->draw(target, states);
-	}
+
+	target.draw(this->infoDisplay, states);
 }

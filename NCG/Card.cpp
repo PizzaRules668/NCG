@@ -102,6 +102,11 @@ int Card::getAttack()
 	return this->attack;
 }
 
+void Card::attackCard(Card* creature)
+{
+	creature->takeDamage(this->attack);
+}
+
 void Card::takeDamage(int amount)
 {
 	this->hp -= amount;
@@ -209,6 +214,13 @@ void Card::setInfo(std::string lore)
 
 std::string Card::getInfo()
 {
+	if (this->creature)
+		this->lore = "\nName: " + this->name + ",\n Rarity: " + getRarityType(this->rarity) + ",\n Cost: " + std::to_string(this->cost) + ",\n Attack: "
+			+ std::to_string(this->attack) + ",\n Hp: " + std::to_string(this->hp) + ",\n Ablities: " + this->abilities.getString();
+
+	else
+		this->lore = "Name: " + this->name + ",\n Rarity: " + getRarityType(this->rarity) + ",\n Cost: " + std::to_string(this->cost) + ",\n Ablities: " + this->abilities.getString();
+
 	return this->lore;
 }
 
