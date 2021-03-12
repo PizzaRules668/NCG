@@ -1,79 +1,116 @@
 #include "Player.h"
 
-Hand* Player::getHand()
+Player::Player()
 {
-    return this->hand;
+	this->deck1 = new Deck();
+	this->deck2 = new Deck();
+
+	this->energy = new Energy();
 }
 
-void Player::setHand(Hand* hand)
+Hand Player::getHand()
 {
-    this->hand = hand;
+	return this->hand;
+}
+
+void Player::setHand(Hand hand)
+{
+	this->hand = hand;
 }
 
 Deck* Player::getDeck1()
 {
-    return this->deck1;
+	return this->deck1;
 }
 
 Deck* Player::getDeck2()
 {
-    return this->deck2;
+	return this->deck2;
 }
 
-void Player::update(sf::Event event, Hand* hand, std::vector<Lane*> lanes, float targetSize)
+void Player::update(sf::Event event, std::vector<Lane*> lanes, float targetSize)
 {
-    this->deck1->update(event, hand);
-    this->deck2->update(event, hand);
+	this->deck1->update(event, &hand);
+	this->deck2->update(event, &hand);
 
-    this->hand->update(event, lanes, targetSize);
-    this->energy->update(event, targetSize);
+	this->hand.update(event, lanes, targetSize);
+	this->energy->update(event, targetSize);
 }
 
 void Player::setDeck1(Deck* deck)
 {
-    this->deck1 = deck;
+	this->deck1 = deck;
+}
+
+void Player::setDeck1(Deck* deck, int x, int y)
+{
+	this->deck1 = deck;
+	this->deck1->setPosition(x, y);
+}
+
+void Player::setDeck1(Deck* deck, sf::Vector2f pos)
+{
+	this->deck1 = deck;
+	this->deck1->setPosition(pos);
 }
 
 void Player::setDeck2(Deck* deck)
 {
-    this->deck2 = deck;
+	this->deck2 = deck;
+}
+
+void Player::setDeck2(Deck* deck, int x, int y)
+{
+	this->deck2 = deck;
+	this->deck2->setPosition(x, y);
+}
+
+void Player::setDeck2(Deck* deck, sf::Vector2f pos)
+{
+	this->deck2 = deck;
+	this->deck2->setPosition(pos);
 }
 
 void Player::setEnergy(Energy* energy)
 {
-    this->energy = energy;
+	this->energy = energy;
 }
 
 Energy* Player::getEnergy()
 {
-    return this->energy;
+	return this->energy;
 }
 
 int Player::getHP()
 {
-    return this->hp;
+	return this->hp;
 }
 
 void Player::setHP(int hp)
 {
-    this->hp = hp;
+	this->hp = hp;
 }
 
 void Player::heal(int amount)
 {
-    this->hp += amount;
+	this->hp += amount;
 }
 
 void Player::takeDamage(int amount)
 {
-    this->hp -= amount;
+	this->hp -= amount;
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    deck1->draw(target, states);
-    deck2->draw(target, states);
+	if (deck1 != nullptr)
+		deck1->draw(target, states);
 
-    hand->draw(target, states);
-    energy->draw(target, states);
+	if (deck2 != nullptr)
+		deck2->draw(target, states);
+
+	hand.draw(target, states);
+
+	if (energy != nullptr)
+		energy->draw(target, states);
 }

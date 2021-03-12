@@ -6,6 +6,20 @@ Lane::Lane()
 	this->infoDisplay.setFont(this->comicSans);
 	this->infoDisplay.setFillColor(sf::Color::White);
 	this->infoDisplay.setScale(0.5f, 0.5f);
+	this->infoDisplay.setOutlineColor(sf::Color::Black);
+	this->infoDisplay.setOutlineThickness(3);
+
+	this->AblityButtonText.setFont(this->comicSans);
+	this->AblityButtonText.setFillColor(sf::Color::White);
+	this->AblityButtonText.setScale(0.5f, 0.5f);
+	this->AblityButtonText.setOutlineColor(sf::Color::Black);
+	this->AblityButtonText.setOutlineThickness(3);
+
+	this->AttackButtonText.setFont(this->comicSans);
+	this->AttackButtonText.setFillColor(sf::Color::White);
+	this->AttackButtonText.setScale(0.5f, 0.5f);
+	this->AttackButtonText.setOutlineColor(sf::Color::Black);
+	this->AttackButtonText.setOutlineThickness(3);
 
 	this->floaty = false;
 }
@@ -15,6 +29,20 @@ Lane::Lane(std::string filePath)
 	this->infoDisplay.setFont(this->comicSans);
 	this->infoDisplay.setFillColor(sf::Color::White);
 	this->infoDisplay.setScale(0.5f, 0.5f);
+	this->infoDisplay.setOutlineColor(sf::Color::Black);
+	this->infoDisplay.setOutlineThickness(3);
+
+	this->AblityButtonText.setFont(this->comicSans);
+	this->AblityButtonText.setFillColor(sf::Color::White);
+	this->AblityButtonText.setScale(0.5f, 0.5f);
+	this->AblityButtonText.setOutlineColor(sf::Color::Black);
+	this->AblityButtonText.setOutlineThickness(3);
+
+	this->AttackButtonText.setFont(this->comicSans);
+	this->AttackButtonText.setFillColor(sf::Color::White);
+	this->AttackButtonText.setScale(0.5f, 0.5f);
+	this->AttackButtonText.setOutlineColor(sf::Color::Black);
+	this->AttackButtonText.setOutlineThickness(3);
 
 	this->setTexture(filePath);
 	this->floaty = floaty;
@@ -25,6 +53,20 @@ Lane::Lane(bool floaty, std::string filePath)
 	this->infoDisplay.setFont(this->comicSans);
 	this->infoDisplay.setFillColor(sf::Color::White);
 	this->infoDisplay.setScale(0.5f, 0.5f);
+	this->infoDisplay.setOutlineColor(sf::Color::Black);
+	this->infoDisplay.setOutlineThickness(3);
+
+	this->AblityButtonText.setFont(this->comicSans);
+	this->AblityButtonText.setFillColor(sf::Color::White);
+	this->AblityButtonText.setScale(0.5f, 0.5f);
+	this->AblityButtonText.setOutlineColor(sf::Color::Black);
+	this->AblityButtonText.setOutlineThickness(3);
+
+	this->AttackButtonText.setFont(this->comicSans);
+	this->AttackButtonText.setFillColor(sf::Color::White);
+	this->AttackButtonText.setScale(0.5f, 0.5f);
+	this->AttackButtonText.setOutlineColor(sf::Color::Black);
+	this->AttackButtonText.setOutlineThickness(3);
 
 	this->setTexture(filePath);
 	this->floaty = floaty;
@@ -38,25 +80,19 @@ bool Lane::addCard(Card* card)
 		{
 			if (card->abilities.Floaty)
 			{
-				std::cout << "Placed Card" << std::endl;
-				std::cout << "No Card here" << std::endl;
-				card->setPosition(this->position);
+				card->setPosition(this->position.x, this->position.y+200);
 				card->onPlay();
 				cards.push_back(card);
 				return true;
 			}
 			if (!card->abilities.Floaty)
 			{
-				std::cout << "Can't Place Card here" << std::endl;
-				std::cout << "Not Floaty" << std::endl;
 				return false;
 			}
 		}
 		else if (!this->floaty)
 		{
-			std::cout << "Placed Card" << std::endl;
-			std::cout << "No Card here" << std::endl;
-			card->setPosition(this->position);
+			card->setPosition(this->position.x, this->position.y+200);
 			card->onPlay();
 			cards.push_back(card);
 			return true;
@@ -68,17 +104,13 @@ bool Lane::addCard(Card* card)
 		{
 			if (card->abilities.Floaty && (card->abilities.TeamUp || cards.at(0)->abilities.TeamUp))
 			{
-				std::cout << "Placed Card" << std::endl;
-				std::cout << "Has Teamup and Floaty" << std::endl;
-				card->setPosition(this->position);
+				card->setPosition(this->position.x, this->position.y+200);
 				card->onPlay();
 				cards.push_back(card);
 				return true;
 			}
 			if (!card->abilities.Floaty && !(card->abilities.TeamUp || cards.at(0)->abilities.TeamUp))
 			{
-				std::cout << "Can't Place Card here" << std::endl;
-				std::cout << "Has Floaty But Not Teamup" << std::endl;
 				return false;
 			}
 		}
@@ -111,16 +143,71 @@ void Lane::update(sf::Event event)
 			if (this->cards.at(i)->getPosition() == this->position)
 				this->cards.at(i)->setPosition(this->position);
 
-			if (this->cards.at(i)->getSprite().getGlobalBounds().contains(event.mouseMove.x, event.mouseMove.y))
+			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right)
 			{
-				this->infoDisplay.setString(this->cards.at(i)->getInfo());
-				this->infoDisplay.setOrigin(this->infoDisplay.getLocalBounds().width, this->infoDisplay.getLocalBounds().height);
-				this->infoDisplay.setPosition(event.mouseMove.x, event.mouseMove.y);
+				if (this->cards.at(i)->getSprite().getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+				{
+					this->infoDisplay.setString(this->cards.at(i)->getInfo());
+					this->infoDisplay.setOrigin(this->infoDisplay.getLocalBounds().width, this->infoDisplay.getLocalBounds().height);
+					this->infoDisplay.setPosition(event.mouseButton.x, event.mouseButton.y);
+				}
+
+				else if (!this->cards.at(i)->getSprite().getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+					this->infoDisplay.setString("");
 			}
 
 			else if (!this->cards.at(i)->getSprite().getGlobalBounds().contains(event.mouseMove.x, event.mouseMove.y))
-			{
 				this->infoDisplay.setString("");
+
+			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+			{
+				if (this->AblityButtonText.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+				{
+					std::cout << "Ablity" << std::endl;
+				}
+				else if (this->AttackButtonText.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+				{
+					std::cout << "Attack" << std::endl;
+				}
+
+				this->click = !click;
+				if (this->click)
+				{
+					if (this->yourCards.at(i)->getSprite().getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+					{
+						if (this->yourCards.at(i)->abilities.size() != 0)
+						{
+							this->AblityButtonText.setPosition(event.mouseButton.x, event.mouseButton.y-20);
+							this->AblityButtonText.setString("Use Ablities");
+							this->AblityButtonRender = true;
+						}
+						else
+						{
+							this->AblityButtonText.setString("");
+							this->AblityButtonRender = false;
+						}
+
+						if (this->yourCards.at(i)->getAttack() != 0)
+						{
+							this->AttackButtonText.setPosition(event.mouseButton.x, event.mouseButton.y);
+							this->AttackButtonText.setString("Attack");
+							this->AttackButtonRender = true;
+						}
+						else
+						{
+							this->AttackButtonText.setString("");
+							this->AttackButtonRender = false;
+						}
+					}
+				}
+
+				if (!this->click)
+				{
+					this->AttackButtonText.setString("");
+					this->AblityButtonText.setString("");
+					this->AttackButtonRender = false;
+					this->AblityButtonRender = false;
+				}
 			}
 		}
 	}
@@ -151,6 +238,16 @@ void Lane::setSprite(sf::Sprite sprite)
 sf::Sprite Lane::getSprite()
 {
 	return this->sprite;
+}
+
+void Lane::attack(Lane *defendingLane)
+{
+	this->yourCards.at(0)->attackCard(defendingLane->getCards().at(0));
+}
+
+void Lane::attack(Card* defendingCreature)
+{
+	this->yourCards.at(0)->attackCard(defendingCreature);
 }
 
 float Lane::getX()
@@ -204,6 +301,12 @@ void Lane::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 	for (int i = 0; i < this->cards.size(); i++)
 		this->cards.at(i)->draw(target, states);
+
+	if (this->AblityButtonRender)
+		target.draw(this->AblityButtonText);
+
+	if (this->AttackButtonRender)
+		target.draw(this->AttackButtonText);
 
 	target.draw(this->infoDisplay, states);
 }

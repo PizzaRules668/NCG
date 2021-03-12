@@ -9,17 +9,22 @@
 class Player : public sf::Drawable
 {
 public:
+	Player();
 
-	Hand* getHand();
-	void setHand(Hand *hand);
+	Hand getHand();
+	void setHand(Hand hand);
 
-	void update(sf::Event event, Hand *hand, std::vector<Lane*> lanes, float targetSize);
+	void update(sf::Event event, std::vector<Lane*> lanes, float targetSize);
 
 	Deck* getDeck1();
 	Deck* getDeck2();
 
 	void setDeck1(Deck *deck);
+	void setDeck1(Deck* deck, int x, int y);
+	void setDeck1(Deck* deck, sf::Vector2f pos);
 	void setDeck2(Deck* deck);
+	void setDeck2(Deck* deck, int x, int y);
+	void setDeck2(Deck* deck, sf::Vector2f pos);
 
 	void setEnergy(Energy* energy);
 	Energy* getEnergy();
@@ -29,14 +34,14 @@ public:
 	void heal(int amount);
 	void takeDamage(int amount);
 
-private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+private:
 	int hp;
 
 	Energy* energy;
 
-	Hand *hand;
+	Hand hand;
 
 	Deck *deck1;
 	Deck *deck2;

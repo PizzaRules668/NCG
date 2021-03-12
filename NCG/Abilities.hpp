@@ -21,6 +21,40 @@ public:
 		this->Armor = Armor;
 	}
 
+	int size()
+	{
+		int abilities = 0;
+
+		if (Multistrike)
+			abilities++;
+
+		if (Spellproof)
+			abilities++;
+
+		if (Floaty)
+			abilities++;
+
+		if (TeamUp)
+			abilities++;
+
+		if (Hidden)
+			abilities++;
+
+		if (Charge)
+			abilities++;
+
+		if (Assassin > 0)
+			abilities++;
+
+		if (Splash > 0)
+			abilities++;
+
+		if (Armor > 0)
+			abilities++;
+
+		return abilities;
+	}
+
 	std::string getString()
 	{
 		std::string abilities;

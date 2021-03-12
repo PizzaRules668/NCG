@@ -6,6 +6,9 @@ Hand::Hand()
 	this->infoDisplay.setFont(this->comicSans);
 	this->infoDisplay.setFillColor(sf::Color::White);
 	this->infoDisplay.setScale(0.5f, 0.5f);
+	this->infoDisplay.setOutlineColor(sf::Color::Black);
+	this->infoDisplay.setOutlineThickness(3);
+
 }
 
 float calculatePos(int id, int numOfCards, float windowWidth, float imageWidth)

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 
 #include <SFML/Graphics.hpp>
 
@@ -6,6 +7,7 @@
 #include "Energy.hpp"
 #include "Cards.hpp"
 #include "Player.h"
+#include "Game.h"
 #include "Card.h"
 #include "Hand.h"
 #include "Lane.h"
@@ -23,14 +25,7 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Window", sf::Style::Default);
 	window.setFramerateLimit(240);
 
-	Player player1;
-	Energy energy;
-	Hand hand;
-
-	player1.setHand(&hand);
-	player1.setDeck1(&Fire);
-	player1.setDeck2(&Nature);
-	player1.setEnergy(&energy);
+	Game game;
 
 	Lane hieghts("assets/images/TestLane.png");
 	Lane ground1("assets/images/TestLane.png");
@@ -39,21 +34,25 @@ int main()
 	Lane floaty(true, "assets/images/TestLane.png");
 
 	std::vector<Lane*> lanes = { &hieghts, &ground1, &ground2, &ground3, &floaty };
+	std::vector<Deck*> decks = { &Fire, &Nature, &Water, &Spooky, &Royal};
 
-	Fire.setPosition(getPos(1, 9, window.getSize().x, Fire.getTexture().getSize().x) - 50.0f, 580.0f);
-	Nature.setPosition(getPos(9, 9, window.getSize().x, Fire.getTexture().getSize().x) - 50.0f, 580.0f);
+	std::default_random_engine rnd;
+	std::shuffle(decks.begin(), decks.end(), rnd);
 
-	hieghts.setPosition(getPos(2, 7, window.getSize().x, hieghts.getTexture().getSize().x)-75.0f, 300.0f);
-	ground1.setPosition(getPos(3, 7, window.getSize().x, ground1.getTexture().getSize().x)-75.0f, 300.0f);
-	ground2.setPosition(getPos(4, 7, window.getSize().x, ground2.getTexture().getSize().x)-75.0f, 300.0f);
-	ground3.setPosition(getPos(5, 7, window.getSize().x, ground3.getTexture().getSize().x)-75.0f, 300.0f);
-	floaty.setPosition(getPos(6, 7, window.getSize().x, floaty.getTexture().getSize().x)-75.0f, 300.0f);
+	game.getPlayerOne()->setDeck1(decks.at(0), getPos(1, 7, window.getSize().x, hieghts.getTexture().getSize().x)-75.0f, 580.0f);
+	game.getPlayerOne()->setDeck2(decks.at(1), getPos(7, 7, window.getSize().x, hieghts.getTexture().getSize().x) - 75.0f, 580.0f);
 
-	hand.setMaxSize(7);
+	game.getPlayerTwo()->setDeck1(decks.at(2), getPos(1, 7, window.getSize().x, hieghts.getTexture().getSize().x) - 75.0f, 0.0f);
+	game.getPlayerTwo()->setDeck2(decks.at(3), getPos(7, 7, window.getSize().x, hieghts.getTexture().getSize().x) - 75.0f, 0.0f);
 
-	hand.setMaxY(650.0f);
-	hand.setMinY(580.0f);
-	hand.setY(650.0f);
+	game.setLanes(lanes);
+	game.setDecks(decks);
+
+	hieghts.setPosition(getPos(2, 7, window.getSize().x, hieghts.getTexture().getSize().x)-75.0f, 150.0f);
+	ground1.setPosition(getPos(3, 7, window.getSize().x, ground1.getTexture().getSize().x)-75.0f, 150.0f);
+	ground2.setPosition(getPos(4, 7, window.getSize().x, ground2.getTexture().getSize().x)-75.0f, 150.0f);
+	ground3.setPosition(getPos(5, 7, window.getSize().x, ground3.getTexture().getSize().x)-75.0f, 150.0f);
+	floaty.setPosition(getPos(6, 7, window.getSize().x, floaty.getTexture().getSize().x)-75.0f, 150.0f);
 
 	while (window.isOpen())
 	{
@@ -64,28 +63,14 @@ int main()
 				window.close();
 
 			// Update Variable
-
-			player1.update(event, &hand, lanes, window.getSize().x);
-
-			hieghts.update(event);
-			ground1.update(event);
-			ground2.update(event);
-			ground3.update(event);
-			floaty.update(event);
+			game.update(event, window.getSize().x);
 		}
 
 		// Clear Screen
 		window.clear();
 
 		// Draw to window in order
-		window.draw(player1);
-		window.draw(energy);
-
-		window.draw(hieghts);
-		window.draw(ground1);
-		window.draw(ground2);
-		window.draw(ground3);
-		window.draw(floaty);
+		window.draw(game);
 
 		// Update Display
 		window.display();

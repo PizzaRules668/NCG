@@ -26,6 +26,9 @@ public:
 	void setSprite(sf::Sprite sprite);
 	sf::Sprite getSprite();
 
+	void attack(Lane* defendingLane);
+	void attack(Card* defendingCreature);
+
 	float getX();
 	float getY();
 	sf::Vector2f getPosition();
@@ -46,7 +49,16 @@ private:
 	sf::Sprite sprite;
 
 	bool floaty = false;
+	std::vector<Card*> opponentsCards;
+	std::vector<Card*> yourCards;
 	std::vector<Card*> cards;
+
+	sf::Text AttackButtonText;
+	sf::Text AblityButtonText;
+	bool AttackButtonRender;
+	bool AblityButtonRender;
+
+	bool click;
 
 	sf::Text infoDisplay;
 	sf::Font comicSans;

@@ -154,6 +154,7 @@
     <ClInclude Include="Cards.hpp" />
     <ClInclude Include="Deck.h" />
     <ClInclude Include="Energy.hpp" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Hand.h" />
     <ClInclude Include="Lane.h" />
     <ClInclude Include="Player.h" />
@@ -162,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Deck.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Hand.cpp" />
     <ClCompile Include="Lane.cpp" />
     <ClCompile Include="Main.cpp" />
