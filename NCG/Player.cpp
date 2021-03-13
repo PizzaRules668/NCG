@@ -5,15 +5,17 @@ Player::Player()
 	this->deck1 = new Deck();
 	this->deck2 = new Deck();
 
+	this->hand = new Hand();
+
 	this->energy = new Energy();
 }
 
-Hand Player::getHand()
+Hand* Player::getHand()
 {
 	return this->hand;
 }
 
-void Player::setHand(Hand hand)
+void Player::setHand(Hand* hand)
 {
 	this->hand = hand;
 }
@@ -30,10 +32,10 @@ Deck* Player::getDeck2()
 
 void Player::update(sf::Event event, std::vector<Lane*> lanes, float targetSize)
 {
-	this->deck1->update(event, &hand);
-	this->deck2->update(event, &hand);
+	this->deck1->update(event, this->hand);
+	this->deck2->update(event, this->hand);
 
-	this->hand.update(event, lanes, targetSize);
+	this->hand->update(event, lanes, targetSize);
 	this->energy->update(event, targetSize);
 }
 
@@ -109,7 +111,8 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	if (deck2 != nullptr)
 		deck2->draw(target, states);
 
-	hand.draw(target, states);
+	if (hand != nullptr)
+		hand->draw(target, states);
 
 	if (energy != nullptr)
 		energy->draw(target, states);

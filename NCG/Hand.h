@@ -55,7 +55,7 @@ private:
 	int maxY;
 	int minY;
 
-	int maxSize;
+	int maxSize = 7;
 
 	sf::Text infoDisplay;
 	sf::Font comicSans;

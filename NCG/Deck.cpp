@@ -138,9 +138,9 @@ void Deck::update(sf::Event event, Hand* hand)
 {
 	if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 		if (this->sprite.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
-			if (hand->addCard(this->getCard(0)))
-				this->cards.erase(this->cards.begin());
-
+			if (this->getCards().size() != 0)
+				if (hand->addCard(this->getCard(0)))
+					this->cards.erase(this->cards.begin());
 }
 
 void Deck::setMaxSize(int maxSize)

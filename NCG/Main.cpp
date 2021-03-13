@@ -1,5 +1,6 @@
 #include <iostream>
 #include <random>
+#include <chrono>
 
 #include <SFML/Graphics.hpp>
 
@@ -36,14 +37,14 @@ int main()
 	std::vector<Lane*> lanes = { &hieghts, &ground1, &ground2, &ground3, &floaty };
 	std::vector<Deck*> decks = { &Fire, &Nature, &Water, &Spooky, &Royal};
 
-	std::default_random_engine rnd;
-	std::shuffle(decks.begin(), decks.end(), rnd);
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count() * 2;
+	std::shuffle(decks.begin(), decks.end(), std::default_random_engine(seed));
 
 	game.getPlayerOne()->setDeck1(decks.at(0), getPos(1, 7, window.getSize().x, hieghts.getTexture().getSize().x)-75.0f, 580.0f);
-	game.getPlayerOne()->setDeck2(decks.at(1), getPos(7, 7, window.getSize().x, hieghts.getTexture().getSize().x) - 75.0f, 580.0f);
+	game.getPlayerOne()->setDeck2(decks.at(1), getPos(7, 7, window.getSize().x, hieghts.getTexture().getSize().x)-75.0f, 580.0f);
 
-	game.getPlayerTwo()->setDeck1(decks.at(2), getPos(1, 7, window.getSize().x, hieghts.getTexture().getSize().x) - 75.0f, 0.0f);
-	game.getPlayerTwo()->setDeck2(decks.at(3), getPos(7, 7, window.getSize().x, hieghts.getTexture().getSize().x) - 75.0f, 0.0f);
+	game.getPlayerTwo()->setDeck1(decks.at(2), getPos(1, 7, window.getSize().x, hieghts.getTexture().getSize().x)-75.0f, 0.0f);
+	game.getPlayerTwo()->setDeck2(decks.at(3), getPos(7, 7, window.getSize().x, hieghts.getTexture().getSize().x)-75.0f, 0.0f);
 
 	game.setLanes(lanes);
 	game.setDecks(decks);

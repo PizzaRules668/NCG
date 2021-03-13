@@ -3,7 +3,14 @@
 Game::Game()
 {
 	this->player1 = new Player();
+	player1->getHand()->setMaxY(650.0f);
+	player1->getHand()->setMinY(580.0f);
+	player1->getHand()->setY(650.0f);
+
 	this->player2 = new Player();
+	player2->getHand()->setMaxY(-80.0f);
+	player2->getHand()->setMinY(-80.0f);
+	player2->getHand()->setY(-80.0f);
 }
 
 void Game::setPlayerOne(Player* player)

@@ -11,8 +11,8 @@ class Player : public sf::Drawable
 public:
 	Player();
 
-	Hand getHand();
-	void setHand(Hand hand);
+	Hand* getHand();
+	void setHand(Hand* hand);
 
 	void update(sf::Event event, std::vector<Lane*> lanes, float targetSize);
 
@@ -37,11 +37,11 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
-	int hp;
+	int hp = 20;
 
 	Energy* energy;
 
-	Hand hand;
+	Hand *hand;
 
 	Deck *deck1;
 	Deck *deck2;
